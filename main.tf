@@ -43,3 +43,7 @@ resource "aws_route_table" "public-tf-wordpress-rtb" {
     Name = "public-tf-wordpress-rtb"
   }
 }
+resource "aws_route_table_association" "public-tf-wordpress-rtb-association" {
+  subnet_id      = aws_subnet.public-tf-wordpress-subnet.id
+  route_table_id = aws_route_table.public-tf-wordpress-rtb.id
+}
