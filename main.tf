@@ -106,3 +106,26 @@ resource "aws_vpc_security_group_egress_rule" "wordpress-tf-sg-allow-all" {
   cidr_ipv4         = "0.0.0.0/0"
   ip_protocol       = "-1"
 }
+data "aws_ami" "amazon_linux_2023" {
+  most_recent = true
+  owners      = ["137112412989"]
+
+  filter {
+    name   = "name"
+    values = ["al2023-ami-2023.*-x86_64"]
+  }
+}
+
+resource "aws_instance" "wordpress-tf-instance" {
+  ami                         = data.aws_ami.amazon_linux_2023.id
+  instance_type               = "t3.small"
+  associate_public_ip_address = true
+  key_name                    = "vockey"
+  subnet_id                   = aws_subnet.public-tf-wordpress-subnet.id
+  vpc_security_group_ids      = [aws_security_group.wordpress-tf-sg.id]
+  depends_on                  = [aws_vpc.wordpress-tf-vpc, aws_subnet.public-tf-wordpress-subnet, aws_security_group.wordpress-tf-sg]
+
+  tags = {
+    Name = "wordpress-tf-instance"
+  }
+}
