@@ -6,7 +6,7 @@ systemctl enable httpd
 systemctl start mariadb
 systemctl enable mariadb
 mysql -e "CREATE DATABASE wordpress;"
-mysql -e "CREATE USER 'wordpressuser'@'localhost' IDENTIFIED BY 'password';"
+mysql -e "CREATE USER 'wordpressuser'@'localhost' IDENTIFIED BY 'test123';"
 mysql -e "GRANT ALL PRIVILEGES ON wordpress.* TO 'wordpressuser'@'localhost';"
 mysql -e "FLUSH PRIVILEGES;"
 cd /var/www/html
